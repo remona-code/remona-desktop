@@ -25,8 +25,10 @@ doğrulamak için:
 certutil -hashfile "reMona-Setup-0.9.13.exe" SHA256
 ```
 
-**0.9.13** için beklenen özet:
+Bu depoda **yayınlanan son sürüm 0.9.13** için beklenen özet:
 `3f39f8a87fbee192254ff523d9eb90a48b8b83210b025d6b7c14a545acaa7dbd`
+
+Daha yeni bir sürüm indirdiyseniz bu satır yerine **kendi release notundaki** özeti kullanın.
 
 ---
 
@@ -63,9 +65,9 @@ reMona-Setup-0.9.13.exe /S
 Kaldırma **verilerinizi silmez**; sohbetler ve anahtarlar aşağıdaki veri klasöründe kalır.
 Tamamen temizlemek için o klasörü de silin.
 
-> Kurulum sırasında Windows Güvenlik Duvarı sorarsa, uygulama yalnız **yerel ağ** üzerinden
-> mobil denetim sunucusu açtığı için izin istenir. İzin vermezseniz uygulama normal çalışır,
-> yalnız telefondan denetim kullanılamaz.
+> Windows Güvenlik Duvarı uyarısı **kurulumda değil**, mobil denetimi ilk kez başlattığınızda
+> çıkar (sunucu yalnız o zaman yerel ağda dinlemeye başlar). İzin vermezseniz uygulama normal
+> çalışır, yalnız telefondan denetim kullanılamaz.
 
 ---
 
@@ -227,9 +229,15 @@ Telefon dört görünümlü bir uygulamadır: **Sohbetler · Aktif · Dosyalar �
   telefondan dosyaya **yazılmaz** — yazmayı sohbetin araçları yapar.
 - **Terminal** masaüstünde açık kabuğun aynasıdır ve o kabuğa komut yazabilir.
 
-Sınırlar açıktır: sunucu **yalnız yerel ağda** çalışır (tünelse/internete açılmaz; eş adresi
-kapısı jeton kapısından önce çalışır) ve her çağrı **jeton** taşır (sabit zamanlı
-karşılaştırma, hatalı denemede kısa süreli kilit).
+Sınırlar açıktır: sunucu **yalnız yerel ağda** çalışır (internete açılmaz; eş adresi kapısı
+jeton kapısından önce çalışır) ve her çağrı **jeton** taşır (sabit zamanlı karşılaştırma,
+hatalı denemede kısa süreli kilit).
+
+Telefon mobil verideyse LAN adresi erişilemez. Bunun için **Ayarlar → Mobil uzaktan →
+Genel bağlantı (relay)** vardır ve **varsayılan olarak kapalıdır**: açarsanız masaüstü
+remona.net üzerindeki röle sunucusuna **dışa doğru** bağlanır, telefon da oraya bağlanır;
+gelen istekler LAN yolundaki **aynı jeton/CSRF ve komut kapılarından** geçer. Röle uç noktasını
+ve anahtarını siz belirlersiniz, kapatınca bağlantı kesilir.
 
 ### MCP, beceriler, eklentiler
 
@@ -313,9 +321,11 @@ Yanlışlıkla silinen sohbet için: `store.json.bak-<zaman>.gz` dosyasını aç
   anahtarı siz belirlersiniz (reMona Platform'u seçerseniz elbette o sağlayıcı kullanılır).
 - **Anahtarlar renderer'a gelmez.** Tüm istekler yerel ağ geçidinden (loopback, oturumluk
   jeton) geçer; anahtar dosyası yalnız sizin kullanıcı hesabınızca okunur.
-- **Telemetri yok.** reMona kullanım verisi toplamaz. Uygulamanın kendiliğinden yaptığı tek
-  ağ isteği **güncelleme denetimidir**; kapatmak için ortam değişkeni:
-  `REMONA_NO_UPDATE_CHECK=1`.
+- **Telemetri yok.** reMona kullanım verisi toplamaz; analitik/izleme kodu göndermez.
+  Kendiliğinden yapılan tek ağ isteği **güncelleme denetimidir** (kapatma:
+  `REMONA_NO_UPDATE_CHECK=1`). Mobil uzaktan denetimde **genel bağlantı (relay)** açarsanız
+  masaüstü remona.net rölesine dışa doğru bağlanır — bu ayar **varsayılan kapalıdır** ve uç
+  noktası değiştirilebilir.
 - **Çalışma alanı sandbox'ı**: coder araçları seçtiğiniz klasörün dışına çıkamaz.
 - **Hassas dosya kapısı**: sır taşıyan dosyalar her izin modunda ayrıca sorulur; onay kanalı
   yoksa erişim **reddedilir** (fail closed).
@@ -366,6 +376,7 @@ Bu depoda şu an yalnız Windows kurulum dosyası yayınlanıyor; dmg üretimi m
 | Model listesi boş | **Ayarlar → Model ayarları**: anahtarın kaydedildiğini ve uç noktanın erişilebilir olduğunu kontrol edin; "anahtar bekliyor" işareti varsa anahtarı girin. |
 | İstekler hata dönüyor | **Ayarlar → Günlük**'e bakın; ağ geçidi ve sağlayıcı yanıtı orada satır satır yazar. |
 | Telefon bağlanmıyor | Telefon ve bilgisayar **aynı ağda** olmalı; güvenlik duvarında uygulamaya izin verin; ağ profili "Özel" olsun. |
+| Telefon mobil veride, LAN'da değil | LAN erişimi kapalıdır; **Ayarlar → Mobil uzaktan → Genel bağlantı (relay)** açılmalı (varsayılan kapalı). |
 | Güncelleme inmiyor | Releases'ten elle indirip kurun; mevcut kurulumun üzerine yazılır. |
 | Kurulum "dosya kullanımda" diyor | Uygulamayı (ve varsa arka planda kalan reMona süreçlerini) kapatıp tekrar deneyin. |
 | Sohbet yanlışlıkla silindi | `store.json.bak-<zaman>.gz` yedeğini geri yükleyin (yukarıdaki "Verileriniz nerede"). |
