@@ -241,8 +241,8 @@ karşılaştırma, hatalı denemede kısa süreli kilit).
 - **Beceri kitaplığı** (`Ayarlar → Beceri kitaplığı`): ajanın `skill` aracıyla yüklediği
   talimat paketleri.
 - **Eklentiler** (`Ayarlar → Eklentiler`): paket listesi, arama ve katalog.
-- **Kurulumla gelen paketler**: kurulum dosyası **50 hazır paket** (145 beceri, 18 yerel
-  MCP sunucusu) ile gelir — ilk açılışta ağdan bir şey indirmeniz gerekmez.
+- **Kurulumla gelen paketler**: kurulum dosyası **50 hazır paket** (145 beceri, 32 pakette MCP sunucu
+  tanımı) ile gelir — ilk açılışta ağdan bir şey indirmeniz gerekmez.
 
 ### Zamanlanmış görevler (Görevler)
 
