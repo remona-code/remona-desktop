@@ -22,11 +22,11 @@ Her sürümün SHA-256 özeti, o sürümün release notlarında yazar. İndirdi�
 doğrulamak için:
 
 ```cmd
-certutil -hashfile "reMona-Setup-0.9.13.exe" SHA256
+certutil -hashfile "reMona-Setup-0.9.14.exe" SHA256
 ```
 
-Bu depoda **yayınlanan son sürüm 0.9.13** için beklenen özet:
-`3f39f8a87fbee192254ff523d9eb90a48b8b83210b025d6b7c14a545acaa7dbd`
+Bu depoda **yayınlanan son sürüm 0.9.14** için beklenen özet:
+`d3564cabf5208b1faa817c6be4cd31558fef756df5d6a71b3a9c9d0d790d918a`
 
 Daha yeni bir sürüm indirdiyseniz bu satır yerine **kendi release notundaki** özeti kullanın.
 
@@ -58,7 +58,7 @@ macOS için durum ayrı bölümde: [macOS](#macos).
 **Sessiz kurulum** (betik/otomasyon için):
 
 ```cmd
-reMona-Setup-0.9.13.exe /S
+reMona-Setup-0.9.14.exe /S
 ```
 
 **Kaldırma:** Windows **Ayarlar → Uygulamalar** listesinden *reMona* → *Kaldır*.
@@ -90,6 +90,21 @@ tanımlamadan sohbet başlamaz.
 - **reMona Platform (mağaza)** — ana sağlayıcı olarak hazır gelir. Kimlik bilgisi
   reMona hesabıyla **OAuth** girişi ya da konsoldan alınan `sk-rmn-…` anahtarıdır;
   fiyat/kota bilgisi ve kullanım pencereleri bu sağlayıcıdan okunur.
+
+---
+
+## Arayüz dili
+
+Uygulama arayüzü 14 dilde gelir; **varsayılan dil İngilizce**'dir.
+
+| | |
+| --- | --- |
+| Diller | English · Türkçe · Deutsch · Français · Español · Italiano · Português (Brasil) · Русский · العربية · हिन्दी · 中文（简体） · 日本語 · 한국어 · Bahasa Indonesia |
+
+- Dil, **Ayarlar → Dil** panelinden değiştirilir; seçim kalıcıdır, uygulama yeniden başlayınca korunur.
+- Dil değiştiğinde açık paneller, bildirimler ve durum satırları anında yenilenir; yeniden başlatma gerekmez.
+- **العربية** seçildiğinde arayüz sağdan sola (RTL) düzenine geçer.
+- Çeviri kapsamı 13 dilde ~%97–98'dir; kalan metinler çoğunlukla ajan istemleri ve teknik adlardır (arayüzde görünmez).
 
 ---
 
