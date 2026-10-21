@@ -1,406 +1,167 @@
 # reMona Desktop
 
-**reMona**, Windows için bir **Agent IDE**: sağlayıcı ekleyip sohbet edersiniz, aynı pencerede
-araç kullanan otonom bir **coder** ajanı çalıştırırsınız, ajan kendi gömülü tarayıcısında ve
-terminalinde iş yapar, işi bitince Git panelinden değişiklikleri inceleyip commit edersiniz.
+**An agent IDE for Windows that works with free models — no API key required.**
 
-Bu depo **yalnızca yayınlanan kurulum dosyalarını** (Releases) barındırır; **kaynak kod
-paylaşılmaz**.
+reMona is a desktop **agent IDE**: you add a provider, chat with any model, and run an
+autonomous **coder agent** in the same window. The agent reads and writes files, runs
+commands in an embedded terminal, opens pages in its own browser, spawns sub-agents, and
+hands the result to a Git panel for review and commit.
+
+It is **provider-agnostic** — OpenAI, Anthropic (Claude), Google Gemini, NVIDIA NIM,
+OpenRouter, Groq, DeepSeek, Moonshot (Kimi), xAI (Grok), Mistral, Together, Cerebras,
+Fireworks, local Ollama, any OpenAI-compatible endpoint — and it **ships with free models
+that need no account and no key**.
+
+![reMona chat screen with a code answer and the model picker on Big Pickle](screenshots/chat.png)
 
 ---
 
-## İndirme
+## Free models, no API key
 
-Kurulum dosyaları yalnızca **Releases** bölümündedir: **[Son sürüm →](../../releases/latest)**
+**OpenCode Zen (Free)** is built into the provider catalog and works keyless: the app sends
+requests with the fixed `public` identity, exactly as the free tier expects. Pick a model
+and start chatting — nothing to sign up for.
 
-| Dosya | Boyut | Açıklama |
+| Model | Context | Notes |
 | --- | --- | --- |
-| `reMona-Setup-<sürüm>.exe` | ~133 MB | Windows x64 kurulum dosyası (NSIS) |
-| `reMona-Setup-<sürüm>.exe.blockmap` | ~0,14 MB | Otomatik güncelleme için delta haritası |
+| **Big Pickle** | 200K | general-purpose default |
+| **Beam Free** | 1M | long context |
+| **DeepSeek V4.1 Flash Free** | 200K | fast reasoning |
+| **GLM-5.3-Flash Free** | 200K | fast, strong at code |
+| **LongCat 2.5 Preview Free** | 1M | long context |
+| **MiMo-V2.6-Flash Free** | 200K | fast |
+| **Nemotron 3.5 Lightning Free** | 262K | low latency |
+| **Nemotron 3.5 Super VL Free** | 1M | long context |
+| **Space Bunny Free** | 1M | long context |
 
-Her sürümün SHA-256 özeti, o sürümün release notlarında yazar. İndirdiğiniz dosyayı
-doğrulamak için:
+![The model picker with the nine free OpenCode Zen models listed](screenshots/free-models.png)
 
-```cmd
-certutil -hashfile "reMona-Setup-0.9.14.exe" SHA256
-```
+**Command Code** adds four more free models (`Beam 1.0 Free`, `Cat Jam Free`,
+`Glyph Cluster Free`, `Laguna S 2.1 Free`) when you paste its key.
 
-Bu depoda **yayınlanan son sürüm 0.9.14** için beklenen özet:
-`d3564cabf5208b1faa817c6be4cd31558fef756df5d6a71b3a9c9d0d790d918a`
-
-Daha yeni bir sürüm indirdiyseniz bu satır yerine **kendi release notundaki** özeti kullanın.
+The free tier is IP-rate-limited by the upstream service and its gateway can change — that
+is why the app also carries a seeded model list: if the live list cannot be fetched, the
+picker still works. Your own key removes the limits.
 
 ---
 
-## Sistem gereksinimleri
+## Screenshots
+
+### Chat — markdown, code blocks, visible reasoning
+The composer keeps everything one keystroke away: model, reasoning effort, web search,
+permission mode, images, and a run budget.
+
+![Chat screen in English](screenshots/chat.png)
+
+### Model settings — free models with context windows
+Every provider is one card: address, API format, key (optional for Zen), and the model list
+with per-model switches.
+
+![Model settings showing OpenCode Zen with its free models](screenshots/settings-models.png)
+
+### Coder — an agent that actually does the work
+Pick a folder and give it a task. The run is sandboxed to that workspace, tools are visible
+as cards, and permission modes decide whether it asks before editing.
+
+![Coder screen](screenshots/coder.png)
+
+### 13 interface languages, English by default
+English · Türkçe · Deutsch · Français · Español · Italiano · Português (Brasil) · Русский ·
+العربية (RTL) · हिन्दी · 中文（简体） · 日本語 · 한국어 · Bahasa Indonesia
+
+![Language settings with thirteen language cards](screenshots/languages.png)
+
+---
+
+## What it does
+
+| Area | What you get |
+| --- | --- |
+| **Chat** | Streaming answers, markdown with syntax-highlighted code, Mermaid diagrams, reasoning display, image attachments, retry and edit |
+| **Coder agent** | read / write / edit / glob / grep / run-command tools, workspace sandbox, plan-then-apply, three permission modes, run budget in USD |
+| **Built-in browser** | The agent browses and screenshots pages itself; you can take over the same tab |
+| **Terminal** | Integrated shell with tracking, so the agent sees what a command actually did |
+| **Sub-agents** | Parallel workers with their own context, cards in the transcript |
+| **Git** | Diff review, commit, and log without leaving the window |
+| **Extensibility** | MCP servers, a skills library, plugins, scheduled tasks (Automations) |
+| **Providers** | 16 presets plus any OpenAI-compatible or Anthropic-protocol endpoint |
+| **Interface** | 13 languages, RTL support, dark/light themes, three layout modes |
+| **Maintenance** | Built-in updater with SHA-256 verification, portable data folder, offline-first |
+
+---
+
+## Download and install
+
+**Latest installer:** [remona.net/download/latest](https://remona.net/download/latest) ·
+**All versions:** [Releases](../../releases/latest)
+
+| File | Size | What it is |
+| --- | --- | --- |
+| `reMona-Setup-<version>.exe` | ~134 MB | Windows x64 installer (NSIS) |
+| `reMona-Setup-<version>.exe.blockmap` | ~0.2 MB | delta map for auto-update |
+
+The installer is **unsigned**, so Windows SmartScreen shows "Unknown publisher":
+choose **More info → Run anyway**. Verify the download instead:
+
+```cmd
+certutil -hashfile "reMona-Setup-0.9.15.exe" SHA256
+```
+
+SHA-256 for **0.9.15**:
+`f6e4053ff3396c6cd9392426921f65aa580f3d41422bc2695f4f19c252553cd0`
+
+Silent install: `reMona-Setup-0.9.15.exe /S`. Uninstalling does **not** delete your chats or
+keys; they live in the app data folder.
+
+### Requirements
 
 | | |
 | --- | --- |
-| İşletim sistemi | Windows 10 veya Windows 11 |
-| Mimari | x64 (64-bit). ARM64 kurulum dosyası yayınlanmıyor. |
-| Disk | ~133 MB kurulum dosyası, kurulduktan sonra **~500 MB** |
-| İnternet | Model yanıtları için gerekli (yerel Ollama hariç) |
-
-macOS için durum ayrı bölümde: [macOS](#macos).
+| OS | Windows 10 or Windows 11 |
+| Architecture | x64 (no ARM64 build yet) |
+| Disk | ~134 MB installer, ~500 MB installed |
+| Internet | Needed for hosted models only (local Ollama works offline) |
 
 ---
 
-## Kurulum
+## First run in 30 seconds
 
-1. Releases sayfasından `reMona-Setup-<sürüm>.exe` dosyasını indirin.
-2. Çalıştırın. Kurulum **imzasız** olduğu için Windows SmartScreen
-   **"Bilinmeyen yayıncı"** uyarısı gösterir: **Daha fazla bilgi** → **Yine de çalıştır**.
-   (Dosya özetini yukarıdaki `certutil` komutuyla karşılaştırabilirsiniz.)
-3. Kurulum **tek kullanıcı içindir**, yönetici izni istemez ve hedef klasörü siz seçersiniz.
-   Varsayılan konum kullanıcı klasörüdür.
-4. Kurulum biter ve uygulama açılır.
-
-**Sessiz kurulum** (betik/otomasyon için):
-
-```cmd
-reMona-Setup-0.9.14.exe /S
-```
-
-**Kaldırma:** Windows **Ayarlar → Uygulamalar** listesinden *reMona* → *Kaldır*.
-Kaldırma **verilerinizi silmez**; sohbetler ve anahtarlar aşağıdaki veri klasöründe kalır.
-Tamamen temizlemek için o klasörü de silin.
-
-> Windows Güvenlik Duvarı uyarısı **kurulumda değil**, mobil denetimi ilk kez başlattığınızda
-> çıkar (sunucu yalnız o zaman yerel ağda dinlemeye başlar). İzin vermezseniz uygulama normal
-> çalışır, yalnız telefondan denetim kullanılamaz.
+1. **Settings → Model settings** opens on first launch.
+2. Pick **OpenCode Zen (Free)** — no key needed — or paste a key for any other provider.
+3. Choose a model in the composer's model menu.
+4. For coder work, pick a folder; the agent is sandboxed to it.
 
 ---
 
-## İlk açılış
+## FAQ
 
-Uygulama ilk açılışta **Ayarlar → Model ayarları** kataloğunu açar. Bir model bağlantısı
-tanımlamadan sohbet başlamaz.
+**Is it really free?** The app is free to use and the OpenCode Zen free tier costs nothing
+and needs no account. Heavy use is limited by the upstream per-IP quota; your own provider
+key removes that limit.
 
-1. **Bir sağlayıcı seçin.** Hazır ön ayarlar gelir; adres ön ayardan gelir, sizden yalnız
-   **API anahtarı** istenir.
-2. **Anahtarı yapıştırın ve kaydedin.** Model listesi otomatik çekilir (`/v1/models`).
-3. **Modeli seçin** (üst çubuktaki model menüsü) ve sohbeti başlatın.
-4. **Coder için bir klasör seçin.** Coder görevi, seçtiğiniz klasöre *sandbox*'lanır:
-   okuma/yazma o klasörle sınırlıdır, dışına çıkan yollar reddedilir.
+**Do I need a reMona account?** No. You can run everything with your own provider or the
+free keyless tier. A reMona account only adds the managed platform plan and usage window.
 
-İki özel durum:
+**Is the source code available?** This repository hosts the published installers and
+release notes. The source is not public.
 
-- **OpenCode Zen (ücretsiz hat)** — anahtar istemez; kimliği maskenizdeki opencode
-  kurulumundan **otomatik** okur. Hazır gelir, seçip kullanmaya başlarsınız.
-- **reMona Platform (mağaza)** — ana sağlayıcı olarak hazır gelir. Kimlik bilgisi
-  reMona hesabıyla **OAuth** girişi ya da konsoldan alınan `sk-rmn-…` anahtarıdır;
-  fiyat/kota bilgisi ve kullanım pencereleri bu sağlayıcıdan okunur.
+**Does it send my code anywhere?** Requests go to the provider you configured, from your
+machine. Nothing is routed through reMona unless you use the reMona Platform provider.
+
+**Can I use it offline?** With a local model (Ollama or any local OpenAI-compatible server)
+the whole loop — chat, coder, terminal, Git — runs on your machine.
 
 ---
 
-## Arayüz dili
+## Search terms
 
-Uygulama arayüzü 14 dilde gelir; **varsayılan dil İngilizce**'dir.
+AI agent IDE · autonomous coding agent · desktop AI client · OpenAI-compatible client ·
+free LLM models · keyless free tier · OpenCode Zen · Claude / GPT / Gemini / DeepSeek /
+Kimi / Grok front-end · MCP client · multi-provider chat · Windows AI app · local LLM GUI ·
+ChatGPT desktop alternative · Cursor / Windsurf alternative for Windows
 
-| | |
-| --- | --- |
-| Diller | English · Türkçe · Deutsch · Français · Español · Italiano · Português (Brasil) · Русский · العربية · हिन्दी · 中文（简体） · 日本語 · 한국어 · Bahasa Indonesia |
+## Links
 
-- Dil, **Ayarlar → Dil** panelinden değiştirilir; seçim kalıcıdır, uygulama yeniden başlayınca korunur.
-- Dil değiştiğinde açık paneller, bildirimler ve durum satırları anında yenilenir; yeniden başlatma gerekmez.
-- **العربية** seçildiğinde arayüz sağdan sola (RTL) düzenine geçer.
-- Çeviri kapsamı 13 dilde ~%97–98'dir; kalan metinler çoğunlukla ajan istemleri ve teknik adlardır (arayüzde görünmez).
-
----
-
-## Neler yapabilir
-
-### Üç arayüz modu
-
-Hesap menüsünden seçilir, tercih hatırlanır:
-
-| Mod | Ne verir |
-| --- | --- |
-| **Kodlama** | Tam arayüz: Sohbet ve Coder ekranları, gelişmiş kontroller |
-| **Ofis** | Sadeleştirilmiş, **sohbet odaklı** görünüm (coder ekranı ve gelişmiş kontroller gizlenir) |
-| **Video** | Video çalışma alanı: storyboard, Player önizlemesi, render kuyruğu |
-
-### Sohbet
-
-- **SSE ile akan yanıt**, katlanabilir **"Düşünce süreci"** bloğu (reasoning modelleri).
-- **Markdown + kod blokları** (kopyala düğmeli) ve **GFM tabloları** (hizalama, hücre içi
-  biçimlendirme). Modelin ürettiği ham HTML güvenlik için her zaman kaçırılır.
-- **Görsel ekleme**: dosyayı sürükleyip yapıştırın; ekler diskte tutulur, istek anında
-  içerik parçası olarak gönderilir.
-- **Web araması / derin araştırma** ve **yerleşik (native) web araması** — arama istemcide
-  koşar, her sağlayıcıda çalışır.
-- **Bağlam pencereleri** ve model başına **düşünme eforu** (uç `/v1/models`'te hangi
-  seviyeleri desteklediğini bildiriyorsa menü ona göre daralır).
-
-### Coder — araç kullanan otonom ajan
-
-Coder döngüsü **istemcide** koşar (ana süreç), uç kendi `/v1/agent/run` ucunu sunuyorsa istek
-oraya yönlenir. Ajanın araç seti:
-
-`bash` · `read_file` · `write_file` · `edit_file` · `glob` · `grep` · `list_dir` · `todo` ·
-`skill` · `memory` · `finish` · `web_search` · `web_fetch` · `subagents` (açık istekte) ·
-`browser` · `computer` (kapılar açıksa)
-
-Araç çağrıları ve çıktıları **zaman çizelgesinde canlı** görünür; yanıtın altında
-adım/araç/süre özeti çıkar.
-
-- **Görev listesi (todo)** — model `todo` aracını kullandığında başlığın altında canlı bir
-  panel açılır. Panel etkileşimlidir: bir maddeyi **siz de "bitti" işaretleyebilirsiniz** ve
-  bu işaret sonraki isteğin gövdesine girer.
-- **Plan modu → onay** — plan hazır olunca turun altında **onay kartı** çıkar:
-  *Otomatik düzenle* ya da *Full access* derseniz **aynı tur** o modda sürer.
-- **Durdur / devam** — koşu sırasında gönder düğmesi **duraklat** olur; iptal upstream
-  bağlantısını gerçekten kapatır. Durdurulan tur **"Devam et"** ile kaldığı yerden sürer.
-- **Arka plan komutları** — `bash background:true`: uzun süren derleme/sunucu arka planda
-  başlar, çıktı `.remona/background/<id>.log` dosyasına yazılır, ajan elindeki işe devam eder;
-  komut bitince ajan bilgilendirilir.
-- **Alt ajanlar (subagents)** — yalnız siz açıkça isterseniz ("alt ajanlarla/paralel yap"):
-  görev bölünür, alt ajanlar **paralel** koşar, sonuçları ana ajana rapor edilir ve nihai
-  yanıtı ana ajan yazar.
-- **Proje kuralları ve bellek** — çalışma alanındaki `AGENTS.md` ve `.remona/memory.md`
-  ajan koşuları arasında taşınan kalıcı bağlamdır.
-
-**İzin modları** (besteci solundaki rozet; görev başına, istemci döngüsünde uygulanır):
-
-| Mod | Ne yapar |
-| --- | --- |
-| **Plan** | Yalnız okuma: inceler, plan çıkarır. Hiçbir dosya değiştirilmez, komut çalışmaz. Hazır olunca onay kartı sunar. |
-| **Değişiklikten önce sor** | Okuma serbest; her yazma/komut **çalışmadan önce** onay kartına düşer (*İzin ver · Bu koşuda hep izin ver · Reddet*). Onay kanalı yoksa çağrı reddedilir. |
-| **Otomatik düzenle** | Dosya okur ve yazar, **bash yok** — komut gerektiren doğrulamaları yapamaz ve bunu açıkça söyler. |
-| **Full access** | Tüm araçlar (varsayılan). Yıkıcı komutlar yine de deny-list'e takılır. |
-
-**Hassas dosya koruması her modda geçerlidir** — `.env` ailesi, `*.pem` / `*.key` / `id_rsa`,
-`.ssh/`, `.aws/`, `.npmrc`, `.netrc`, `.git-credentials`, `credentials.json` gibi hedefler
-Full access dahil **ayrı ayrı sorulur** ve toplu "hep izin ver" sunulmaz. `.env.example`
-gibi şablonlar serbesttir (sır taşımazlar).
-
-### Sağlayıcılar
-
-Hazır ön ayarlar (yalnız API anahtarı gerekir):
-
-`OpenAI` · `Anthropic (Claude)` · `Google Gemini` · `NVIDIA NIM` · `OpenRouter` · `Groq` ·
-`DeepSeek` · `Moonshot (Kimi API)` · `xAI (Grok)` · `Mistral` · `Together AI` · `Cerebras` ·
-`Fireworks AI` · `Ollama (yerel)` · `OpenCode Zen (ücretsiz)` · `Command Code` ·
-`reMona Platform (mağaza)`
-
-Ayrıca **Özel uç nokta** ile OpenAI uyumlu herhangi bir sunucu bağlanabilir.
-
-- **Anthropic kendi protokolüyle** konuşulur (`/v1/messages` ↔ `/v1/chat/completions`
-  adaptörü; system ayırma, görsel blokları, `thinking` akışı).
-- **Anahtarlar arayüze hiç gelmez**: istekler ana süreçteki **yerel ağ geçidinden** (loopback,
-  her oturumda yenilenen jeton) geçer. Anahtar renderer'a sızmaz, CORS engeli de bu kapıda aşılır.
-- **Sağlayıcı paketi** ile tanımlarınızı dışa/içe aktarabilirsiniz (yedek ve makine taşıma).
-- Birden çok sağlayıcı **tek model listesinde** görünür (`<sağlayıcı>::<model>` kimliğiyle).
-
-### Gömülü tarayıcı
-
-Sağ panelin **Tarayıcı** sekmesi (Ctrl+Shift+B) gerçek, sekmeli bir tarayıcıdır — ve
-**her sohbetin kendi oturumu** vardır: ayrı sekme listesi, ayrı **kalıcı profil/çerezler**,
-ayrı cihaz ve yakınlaştırma.
-
-- Sekme çubuğu, adres çubuğu (URL ya da arama), geri/ileri, konsol, ekran görüntüsü,
-  **öğe seçici** ve "sayfayı sohbete gönder".
-- **Görünüm ölçüsü**: panelin tamamı, masaüstü yatay (1280/1440/1920), masaüstü dikey,
-  iPad, iPhone 12/SE, Pixel 5, Galaxy S20 ve serbest ölçü. Telefon/tablet ön ayarları
-  mobil UA + dokunma açar; sayfa istenen CSS genişliğinde dizilir (panele kırpılmaz).
-- **Ajan da bu tarayıcıyı kullanır** (`browser` aracı): gezme, tıklama, form doldurma,
-  ekran görüntüsü, öğe seçme; hangi sohbette koşuyorsa komutlar oraya gider ve arka
-  plandaki sohbetin odağı çalınmaz. Ekran görüntüleri koşu tavanıyla (40 kare) sınırlıdır.
-- Panel kapansa da sekmeler yaşar; sohbet silinince o sohbetin kalıcı profili de silinir.
-
-### Tümleşik terminal
-
-Ctrl+J ile sohbetin altında bir kabuk açılır. Kabuk **proje klasöründe** doğar,
-**sohbete özeldir** ve ana süreçte yaşar: panel kapansa, sohbet değişse ya da arayüz
-yenilense de `cd` ve ortam değişkenleri korunur. Kabuk seçilebilir
-(**cmd · PowerShell · bash**).
-
-### Sağ yan panel (tek panel, sekmeli)
-
-Tarayıcı, dosyalar, ajanlar ve Git aynı panelin sekmeleridir (`Ctrl+Alt+B` paneli gizler/gösterir):
-
-| Sekme | İçerik |
-| --- | --- |
-| **Tarayıcı** | Yukarıdaki gömülü tarayıcı |
-| **Dosyalar** | Ajanın okuduğu dosyalar sekmeli açılır; kopyala, sistem uygulamasında aç |
-| **Ajanlar** | Çalışma alanındaki ortak ajan defteri (`collab`) |
-| **Git** | Çalışma alanının deposu |
-
-**Git sekmesi**: dal (+ uzak iz ↑/↓), **Sahnelenen · Değişen · İzlenmeyen** bölümleri,
-satır başına `+N/−M` istatistiği; sahnele/çıkar, commit (Ctrl+Enter), **amend**, dal
-değiştir/oluştur/sil, uzak ekle, fetch, pull (`--ff-only`), push. Dosyaya tıklayınca
-**farkı**, commit'e tıklayınca **commit detayı** açılır. `--force` hiçbir yolda üretilmez;
-yıkıcı eylemler iki adımlıdır; **hassas dosyaların farkı arayüze taşınmaz** (satır
-"hassas" işaretlenir).
-
-### Mobil uzaktan denetim
-
-**Ayarlar → Mobil uzaktan → Başlat** → çıkan **QR**'ı telefonla okutun (ya da adresi elle açın).
-Telefon dört görünümlü bir uygulamadır: **Sohbetler · Aktif · Dosyalar · Terminal**.
-
-- **Aktif** görünümde canlı transkript, araç satırları, **onay kartları** ve **plan kartı**
-  görünür: koşuyu izler, mesaj gönderir, durdurur ve "Devam et" ile sürdürürsünüz.
-- **Dosyalar** çalışma alanında gezinir ve dosya okur (512 KB tavanı, ikili reddi);
-  telefondan dosyaya **yazılmaz** — yazmayı sohbetin araçları yapar.
-- **Terminal** masaüstünde açık kabuğun aynasıdır ve o kabuğa komut yazabilir.
-
-Sınırlar açıktır: sunucu **yalnız yerel ağda** çalışır (internete açılmaz; eş adresi kapısı
-jeton kapısından önce çalışır) ve her çağrı **jeton** taşır (sabit zamanlı karşılaştırma,
-hatalı denemede kısa süreli kilit).
-
-Telefon mobil verideyse LAN adresi erişilemez. Bunun için **Ayarlar → Mobil uzaktan →
-Genel bağlantı (relay)** vardır ve **varsayılan olarak kapalıdır**: açarsanız masaüstü
-remona.net üzerindeki röle sunucusuna **dışa doğru** bağlanır, telefon da oraya bağlanır;
-gelen istekler LAN yolundaki **aynı jeton/CSRF ve komut kapılarından** geçer. Röle uç noktasını
-ve anahtarını siz belirlersiniz, kapatınca bağlantı kesilir.
-
-### MCP, beceriler, eklentiler
-
-- **MCP sunucuları** (`Ayarlar → MCP sunucuları`): yapılandırma **Claude Code uyumludur**
-  (`{"mcpServers": {…}}`; stdio için `command`/`args`/`env`/`cwd`, uzak için
-  `type:"http"|"sse"` + `url` + `headers`). MCP, ajanın araç setini çekirdek koda
-  dokunmadan **genişletir**; araç onayları izin modlarına ve hassas dosya kapısına uyar.
-  Depoyla gelen `<çalışma alanı>/.remona/mcp.json` **onay ister**.
-- **Beceri kitaplığı** (`Ayarlar → Beceri kitaplığı`): ajanın `skill` aracıyla yüklediği
-  talimat paketleri.
-- **Eklentiler** (`Ayarlar → Eklentiler`): paket listesi, arama ve katalog.
-- **Kurulumla gelen paketler**: kurulum dosyası **50 hazır paket** (145 beceri, 32 pakette MCP sunucu
-  tanımı) ile gelir — ilk açılışta ağdan bir şey indirmeniz gerekmez.
-
-### Zamanlanmış görevler (Görevler)
-
-`Ayarlar → Görevler`: zamanı gelince masaüstünde **yeni bir sohbet/coder kaydı açıp istemi
-kendiliğinden gönderen** tanımlar (tekrarlayan rutinler için).
-
-### Video modu
-
-Üçüncü tam ekran mod: **storyboard** (başlık, maddeler, görsel, alıntı, grafik sahneleri),
-**Player** önizlemesi ve **render kuyruğu** (ilerleme, iptal, kare önizleme). Her düzenleme
-otomatik kaydedilir; çıktı dosyasının yerini uygulama belirler.
-
-### Kullanım istatistikleri
-
-`Ayarlar → Kullanım istatistikleri`: sağlayıcının bildirdiği `usage` alanından toplam/girdi/çıktı
-token, sohbet ve gün kırılımı tabloları ve **CSV olarak indirme** (Excel uyumlu).
-reMona Platform kullanıyorsanız üstteki **Coder paketi** kartı üç kullanım penceresini
-(5 saatlik / haftalık / aylık) yüzde ve yenilenme geri sayımıyla gösterir.
-
----
-
-## Klavye kısayolları
-
-| Kısayol | İşlev |
-| --- | --- |
-| `Ctrl+N` | Yeni sohbet / coder görevi |
-| `Ctrl+K` | Arama (`proje:ad` ile proje filtresi) |
-| `Ctrl+P` | Komut paleti |
-| `Ctrl+,` | Ayarlar |
-| `Ctrl+Alt+B` | Yan paneli gizle/göster |
-| `Ctrl+Shift+B` | Tarayıcı sekmesi |
-| `Ctrl+J` | Tümleşik terminal |
-| `Esc` | Açık modalı kapat |
-
-Terminal odaklıyken: `Ctrl+J` satır sonu, `Ctrl+L` temizle, `Ctrl+C` satırı iptal / seçimi kopyala.
-
----
-
-## Verileriniz nerede
-
-Her şey **yerelde** durur; buluta kopyalanmaz. Windows'ta kök klasör:
-
-```
-%APPDATA%\reMona\remona-desktop\
-```
-
-| Yol | İçerik |
-| --- | --- |
-| `store.json` | Sohbetler, projeler, ayarlar |
-| `store.json.bak-<zaman>.gz` | Otomatik yedekler (son 10 adet) |
-| `providers.json` | Sağlayıcı tanımları + **API anahtarları** (yalnız sizin hesabınız) |
-| `mcp.json` | Kullanıcı katmanı MCP sunucuları |
-| `attachments\` | Sohbete eklenen dosyalar/görseller |
-| `screenshots\` | Ajanın ve tarayıcının ekran görüntüleri |
-| `downloads\` | Gömülü tarayıcının indirmeleri |
-| `logs\` | Günlükler (`Ayarlar → Günlük`) |
-
-**Yedekleme:** uygulamayı kapatın, `store.json` + `providers.json` dosyalarını kopyalayın.
-**Geri yükleme:** kopyaladığınız dosyaları aynı yere koyup uygulamayı açın.
-Yanlışlıkla silinen sohbet için: `store.json.bak-<zaman>.gz` dosyasını açıp (gzip) çıkan
-`store.json`'ı yukarıdaki klasöre kopyalayın ve uygulamayı yeniden başlatın.
-
----
-
-## Gizlilik ve güvenlik
-
-- **Model istekleri doğrudan sizin sağlayıcınıza gider.** reMona araya girmez; uç noktayı ve
-  anahtarı siz belirlersiniz (reMona Platform'u seçerseniz elbette o sağlayıcı kullanılır).
-- **Anahtarlar renderer'a gelmez.** Tüm istekler yerel ağ geçidinden (loopback, oturumluk
-  jeton) geçer; anahtar dosyası yalnız sizin kullanıcı hesabınızca okunur.
-- **Telemetri yok.** reMona kullanım verisi toplamaz; analitik/izleme kodu göndermez.
-  Kendiliğinden yapılan tek ağ isteği **güncelleme denetimidir** (kapatma:
-  `REMONA_NO_UPDATE_CHECK=1`). Mobil uzaktan denetimde **genel bağlantı (relay)** açarsanız
-  masaüstü remona.net rölesine dışa doğru bağlanır — bu ayar **varsayılan kapalıdır** ve uç
-  noktası değiştirilebilir.
-- **Çalışma alanı sandbox'ı**: coder araçları seçtiğiniz klasörün dışına çıkamaz.
-- **Hassas dosya kapısı**: sır taşıyan dosyalar her izin modunda ayrıca sorulur; onay kanalı
-  yoksa erişim **reddedilir** (fail closed).
-- **Mobil sunucu** yalnız yerel ağda dinler, jeton ister ve genel bir arayüze düşen trafik
-  jeton denemesinden önce reddedilir.
-- **Web araçları**: `web_fetch` yerel/özel adresleri reddeder (SSRF koruması).
-
----
-
-## Otomatik güncelleme
-
-Uygulama yeni sürümü **remona.net** üzerinden denetler (açılıştan sonra bir kez ve 6 saatte
-bir):
-
-1. **Denetle** — `GET https://remona.net/api/desktop/latest`; yayın yoksa sessizce geçer.
-2. **İndir** — yalnız **sizin onayınızla**; yarıda kalan indirme sonraki açılışta temizlenir.
-3. **Doğrula** — **SHA-256 zorunludur**; boyut ya da özet uyuşmazsa dosya silinir ve kurulum
-   başlatılmaz. İndirme adresi `https` olmalı ve alan adı remona.net ya da manifestoyu sunan
-   alan adı olmalı.
-4. **Kur** — NSIS sessiz kurulumu; kurulum dizini kayıt defterinden okunur, yani özel bir
-   klasöre kurmuş olsanız bile **yerinde** güncellenir. Sohbetler, anahtarlar ve ayarlar korunur.
-
-İndirme ve kurulum asla sessizce başlamaz. "Bu sürümü atla" seçeneği bir sonraki sürümde
-yeniden sorar.
-
-> **GitHub Releases bir indirme/arşiv kanalıdır**; otomatik güncelleme akışı remona.net
-> üzerinden yürür. Buradan elle indirdiğiniz kurulum dosyasını doğrudan çalıştırabilirsiniz —
-> mevcut kurulumun üzerine kurulur, verileriniz korunur.
-
----
-
-## macOS
-
-Uygulama macOS'ta da çalışır (Apple Silicon ve Intel): pencere kromu ve uygulama menüsü
-mac'e uyarlıdır (⌘Q/⌘C/⌘V), terminal `zsh`'i seçer, dock tıklaması pencereyi geri getirir.
-**Bilgisayar kullanımı** (fare/klavye denetimi) hâlâ yalnız Windows'tadır ve otomatik
-güncelleme mac'te kapalıdır (NSIS akışı Windows'a özgüdür; mac'te yeni `.dmg` kurulur).
-Bu depoda şu an yalnız Windows kurulum dosyası yayınlanıyor; dmg üretimi macOS gerektirir.
-
----
-
-## Sorun giderme
-
-| Belirti | Çözüm |
-| --- | --- |
-| "Windows kişisel bilgisayarınızı korudu" | **Daha fazla bilgi** → **Yine de çalıştır**. Kurulum imzasız; dosya özetini `certutil` ile doğrulayın. |
-| Antivirüs dosyayı karantinaya aldı | Klasörü istisnaya ekleyin ya da kurulum dosyasını yeniden indirip özeti karşılaştırın. |
-| Model listesi boş | **Ayarlar → Model ayarları**: anahtarın kaydedildiğini ve uç noktanın erişilebilir olduğunu kontrol edin; "anahtar bekliyor" işareti varsa anahtarı girin. |
-| İstekler hata dönüyor | **Ayarlar → Günlük**'e bakın; ağ geçidi ve sağlayıcı yanıtı orada satır satır yazar. |
-| Telefon bağlanmıyor | Telefon ve bilgisayar **aynı ağda** olmalı; güvenlik duvarında uygulamaya izin verin; ağ profili "Özel" olsun. |
-| Telefon mobil veride, LAN'da değil | LAN erişimi kapalıdır; **Ayarlar → Mobil uzaktan → Genel bağlantı (relay)** açılmalı (varsayılan kapalı). |
-| Güncelleme inmiyor | Releases'ten elle indirip kurun; mevcut kurulumun üzerine yazılır. |
-| Kurulum "dosya kullanımda" diyor | Uygulamayı (ve varsa arka planda kalan reMona süreçlerini) kapatıp tekrar deneyin. |
-| Sohbet yanlışlıkla silindi | `store.json.bak-<zaman>.gz` yedeğini geri yükleyin (yukarıdaki "Verileriniz nerede"). |
-
----
-
-## Bu depo hakkında
-
-- Burada **yalnızca derlenmiş kurulum dosyaları** yayınlanır; **kaynak kod paylaşılmaz**.
-- Sürüm notlarını ve SHA-256 özetlerini **Releases** sayfasında bulabilirsiniz.
-- Hata bildirimi ve öneriler için **Issues** bölümünü kullanabilirsiniz.
-- Eski sürümler arşiv olarak eklenmez; her zaman en son sürüm önerilir.
+- Website and downloads — [remona.net](https://remona.net)
+- Latest installer — [remona.net/download/latest](https://remona.net/download/latest)
+- Update manifest (JSON) — [remona.net/api/desktop/latest](https://remona.net/api/desktop/latest)
