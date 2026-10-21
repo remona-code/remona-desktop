@@ -51,7 +51,6 @@ picker still works. Your own key removes the limits.
 The composer keeps everything one keystroke away: model, reasoning effort, web search,
 permission mode, images, and a run budget.
 
-![Chat screen in English](screenshots/chat.png)
 
 ### Model settings — free models with context windows
 Every provider is one card: address, API format, key (optional for Zen), and the model list
@@ -104,13 +103,13 @@ The installer is **unsigned**, so Windows SmartScreen shows "Unknown publisher":
 choose **More info → Run anyway**. Verify the download instead:
 
 ```cmd
-certutil -hashfile "reMona-Setup-0.9.15.exe" SHA256
+certutil -hashfile "reMona-Setup-0.9.16.exe" SHA256
 ```
 
-SHA-256 for **0.9.15**:
-`f6e4053ff3396c6cd9392426921f65aa580f3d41422bc2695f4f19c252553cd0`
+SHA-256 for **0.9.16**:
+`e532c0f9cca0138349c48f6d7d0d68c1f1946644e4a232f6e25689da3de83b0c`
 
-Silent install: `reMona-Setup-0.9.15.exe /S`. Uninstalling does **not** delete your chats or
+Silent install: `reMona-Setup-0.9.16.exe /S`. Uninstalling does **not** delete your chats or
 keys; they live in the app data folder.
 
 ### Requirements
